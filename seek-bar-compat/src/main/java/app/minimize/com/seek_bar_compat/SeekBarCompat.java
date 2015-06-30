@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,58 +23,80 @@ import java.util.concurrent.Callable;
 
 /**
  * Created by ahmedrizwan on 6/21/15.
+ * SeekBarCompat : A simple view implementation for consistent SeekBar design on APIs 16 and above
  */
-public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
+public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
 
-    private static final String TAG = "Material SeekBar";
-    @ColorInt
+    /***
+     * Thumb and Progress colors
+     */
     int mThumbColor, mProgressColor;
 
-
+    /***
+     * Thumb drawable
+     */
     Drawable mThumb;
+
+    /***
+     * States for Lollipop ColorStateList
+     */
     int[][] states = new int[][]{
             new int[]{android.R.attr.state_enabled}, // enabled
             new int[]{android.R.attr.state_pressed}  // pressed
     };
 
+    /***
+     * Default colors to be black for Thumb ColorStateList
+     */
     int[] colorsThumb = new int[]{
             Color.BLACK,
             Color.BLACK
     };
 
+    /***
+     * Default colors to be black for Progress ColorStateList
+     */
     int[] colorsProgress = new int[]{
             Color.BLACK,
             Color.BLACK
     };
 
-
+    /***
+     * ColorStateList objects
+     */
     ColorStateList mColorStateListThumb, mColorStateListProgress;
 
+    /***
+     * Updates the thumbColor dynamically
+     *
+     * @param thumbColor Color representing thumb drawable
+     */
     public void setThumbColor(final int thumbColor) {
         mThumbColor = thumbColor;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             colorsThumb[0] = thumbColor;
             colorsThumb[1] = thumbColor;
             mColorStateListThumb = new ColorStateList(states, colorsThumb);
-
             setThumbTintList(mColorStateListThumb);
-            setProgressTintList(mColorStateListProgress);
         } else {
             //load up the drawable and apply color
-            mThumb.setColorFilter(thumbColor, PorterDuff.Mode.MULTIPLY);
-            setThumb(mThumb);
+            updateThumb(thumbColor);
         }
         invalidate();
         requestLayout();
     }
 
+    /***
+     * Updates the progressColor dynamically
+     *
+     * @param progressColor Color representing progress drawable
+     */
     public void setProgressColor(final int progressColor) {
         mProgressColor = progressColor;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             colorsProgress[0] = progressColor;
             colorsProgress[1] = progressColor;
             mColorStateListProgress = new ColorStateList(states, colorsProgress);
-            setThumbTintList(mColorStateListThumb);
             setProgressTintList(mColorStateListProgress);
         } else {
             //load up the drawable and apply color
@@ -86,20 +107,32 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
         requestLayout();
     }
 
-    public MaterialSeekBar(final Context context) {
+    /***
+     * Constructor for creating SeekBarCompat through code
+     *
+     * @param context Context object
+     */
+    public SeekBarCompat(final Context context) {
         super(context);
     }
 
-    public MaterialSeekBar(final Context context, final AttributeSet attrs) {
+    /***
+     * Constructor for creating SeekBarCompat through XML
+     *
+     * @param context Context Object
+     * @param attrs   Attributes passed through XML
+     */
+    public SeekBarCompat(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.getTheme()
                 .obtainStyledAttributes(
                         attrs,
-                        R.styleable.MaterialSeekBar,
+                        R.styleable.SeekBarCompat,
                         0, 0);
         try {
-            mThumbColor = a.getColor(R.styleable.MaterialSeekBar_thumbColor, getPrimaryColorFromSelectedTheme(context));
-            mProgressColor = a.getColor(R.styleable.MaterialSeekBar_progressColor, getPrimaryColorFromSelectedTheme(context));
+            mThumbColor = a.getColor(R.styleable.SeekBarCompat_thumbColor, getPrimaryColorFromSelectedTheme(context));
+            mProgressColor = a.getColor(R.styleable.SeekBarCompat_progressColor, getPrimaryColorFromSelectedTheme(context));
+
             colorsThumb[0] = mThumbColor;
             colorsThumb[1] = mThumbColor;
             mColorStateListThumb = new ColorStateList(states, colorsThumb);
@@ -112,18 +145,21 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
             } else {
                 //load up the drawable and apply color
                 mThumb = ContextCompat.getDrawable(context, R.drawable.ic_circle);
-                mThumb.setColorFilter(mThumbColor, PorterDuff.Mode.MULTIPLY);
-                setThumb(mThumb);
+
+                updateThumb(mThumbColor);
+
                 LayerDrawable ld = (LayerDrawable) getProgressDrawable();
                 ld.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
+
                 setOnTouchListener(this);
+
                 triggerMethodOnceViewIsDisplayed(this, new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-//                        Log.e(TAG, "call "+layoutParams.height +" "+mThumb.getIntrinsicHeight());
-                        layoutParams.height = (int) (mThumb.getIntrinsicHeight()*1.5);
+                        layoutParams.height = (int) (mThumb.getIntrinsicHeight() * 1.5);
                         setLayoutParams(layoutParams);
+
                         return null;
                     }
                 });
@@ -133,10 +169,12 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
         }
     }
 
-    public MaterialSeekBar(final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
+    /***
+     * Gets the Primary Color from theme
+     *
+     * @param context Context Object
+     * @return Primary Color
+     */
     public static int getPrimaryColorFromSelectedTheme(Context context) {
         int[] attrs = {R.attr.colorPrimary, R.attr.colorPrimaryDark};
         TypedArray ta = context.getTheme()
@@ -147,16 +185,12 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
         return primaryColor;
     }
 
-    public static int getPrimaryColorDarkFromSelectedTheme(Context context) {
-        int[] attrs = {R.attr.colorPrimary, R.attr.colorPrimaryDark};
-        TypedArray ta = context.getTheme()
-                .obtainStyledAttributes(attrs);
-        int primaryColorDark = ta.getColor(1, Color.BLACK); //1 index for primaryColorDark
-        //default value for primaryColor is set to black if primaryColor not found
-        ta.recycle();
-        return primaryColorDark;
-    }
-
+    /***
+     * Utility method for ViewTreeObserver
+     *
+     * @param view   View object
+     * @param method Method to be called once View is displayed
+     */
     public static void triggerMethodOnceViewIsDisplayed(final View view, final Callable<Void> method) {
         final ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -176,24 +210,25 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
         });
     }
 
+    /***
+     * Touch listener for changing Thumb Drawable
+     *
+     * @param v     View Object
+     * @param event Motion Event
+     * @return
+     */
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
                 // Pressed state
-                int h = (int) (mThumb.getIntrinsicHeight() * 1.1); // 8 * 1.5 = 12
-                int w = h;
-                Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
-                Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, w, h, true);
-                Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);
-                newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
-                setThumb(newThumb);
-                getThumb().setColorFilter(mThumbColor, PorterDuff.Mode.MULTIPLY);
+                updateThumb(mThumbColor, (float) 1.1);
                 break;
 
             case MotionEvent.ACTION_UP:
                 expandThumb(getHeight());
+                mThumb.setColorFilter(mThumbColor, PorterDuff.Mode.MULTIPLY);
                 setThumb(mThumb);
                 break;
         }
@@ -201,6 +236,11 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
         return false;
     }
 
+    /***
+     * Expands thumb size to be that of the SeekBar
+     *
+     * @param height Height of the SeekBar
+     */
     private void expandThumb(int height) {
         mThumb.setBounds(0, 0, mThumb.getIntrinsicWidth(), height);
         //force a redraw
@@ -209,13 +249,31 @@ public class MaterialSeekBar extends SeekBar implements View.OnTouchListener {
         setProgress(progress);
     }
 
-    private void resizeThumb(int width, int height) {
-        mThumb.setBounds(-10, -10, width, height);
-        //force a redraw
-        int progress = getProgress();
-        setProgress(0);
-        setProgress(progress);
+    /***
+     * Draws scaled version of the thumb from bitmap
+     * @param thumbColor color
+     * @param scale scale value
+     */
+    private void updateThumb(final int thumbColor, final float scale) {
+        int h = (int) (mThumb.getIntrinsicHeight()*scale); //scale the size of thumb to 1.1
+        Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
+        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, h, h, true); //height=width
+        Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);
+        newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
+        setThumb(newThumb);
+        getThumb().setColorFilter(thumbColor, PorterDuff.Mode.MULTIPLY);
     }
 
+    /***
+     * Draws the thumb from bitmap
+     * @param thumbColor color
+     */
+    private void updateThumb(final int thumbColor){
+        Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
+        Drawable newThumb = new BitmapDrawable(getResources(), bmpOrg);
+        newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
+        setThumb(newThumb);
+        getThumb().setColorFilter(thumbColor, PorterDuff.Mode.MULTIPLY);
+    }
 
 }
