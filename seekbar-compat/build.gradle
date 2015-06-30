@@ -1,21 +1,20 @@
 apply plugin: 'com.android.library'
 
-
 ext {
     // Where you will see your artifact in Bintray's web interface
     // The "bintrayName" should match the name of the Bintray repro.
     bintrayRepo = 'maven'
-    bintrayName = 'seek-bar-compat'
+    bintrayName = 'seekbar-compat'
 
     // Maven metadata
     publishedGroupId = 'com.minimize.library'
     libraryName = 'SeekBarCompat'
     // Save yourself a head ache, and set this equal to the name of the Android Studio library
     // module. The artifact name needs to match the name of the library.
-    artifact = 'seek-bar-compat'
+    artifact = 'seekbar-compat'
 
-    libraryDescription = 'A material design wrapper around SeekBar widget, which supports Android version 16 and above.'
-    libraryVersion = '0.1.2'
+    libraryDescription = 'A material design wrapper around SeekBar widget, which draws the SeekBar with consistent colors from Android APIs 16 and above.'
+    libraryVersion = '0.1.0'
 
     developerId = 'ahmedrizwan'
     developerName = 'Ahmed Rizwan'
@@ -45,8 +44,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
 }
 
-//apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-//apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
+apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
 
 
 

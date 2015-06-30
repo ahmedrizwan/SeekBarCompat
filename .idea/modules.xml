@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SeekBarCompatAndroid.iml" filepath="$PROJECT_DIR$/SeekBarCompatAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/seek-bar-compat/seek-bar-compat.iml" filepath="$PROJECT_DIR$/seek-bar-compat/seek-bar-compat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/seekbar-compat/seekbar-compat.iml" filepath="$PROJECT_DIR$/seekbar-compat/seekbar-compat.iml" />
     </modules>
   </component>
 </project>
