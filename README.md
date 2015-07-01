@@ -14,7 +14,8 @@ A support library for the material design SeekBar in Android for API 16 and abov
 <br/>
 <br/>
 ##Example
-You can set the thumbColor and progressColor in Xml like
+The SeekBarCompat picks up the PrimaryColor by default, but you set custom colors for SeekBar thumb and progress too, both in xml and programmatically.
+####Xml 
 
 ```xml
 <app.minimize.com.seek_bar_compat.SeekBarCompat
@@ -27,7 +28,7 @@ You can set the thumbColor and progressColor in Xml like
 ```
 Note: specifying *maxHeight* fixes the gravity/positioning of thumb and progress-line
 
-Or you can programmitcally change the colors
+####Programmatically
 ```java
 SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar);
 seekBarCompat.setThumbColor(Color.RED);
