@@ -15,6 +15,8 @@ A support library for the material design SeekBar in Android for API 16 and abov
 <br/>
 ##Example
 You can set the thumbColor and progressColor in Xml like
+
+Note: specifying *maxHeight* fixes the gravity/positioning of thumb and progress-line
 ```xml
 <app.minimize.com.seek_bar_compat.SeekBarCompat
         android:id="@+id/materialSeekBar"
