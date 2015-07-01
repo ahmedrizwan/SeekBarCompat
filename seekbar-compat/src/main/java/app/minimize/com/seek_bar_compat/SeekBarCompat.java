@@ -227,9 +227,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                 break;
 
             case MotionEvent.ACTION_UP:
-                expandThumb(getHeight());
-                mThumb.setColorFilter(mThumbColor, PorterDuff.Mode.MULTIPLY);
-                setThumb(mThumb);
+                updateThumb(mThumbColor);
                 break;
         }
 
@@ -269,8 +267,10 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * @param thumbColor color
      */
     private void updateThumb(final int thumbColor){
+        int h = (int) (mThumb.getIntrinsicHeight()*0.6); //scale the size of thumb to 1.1
         Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
-        Drawable newThumb = new BitmapDrawable(getResources(), bmpOrg);
+        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, h, h, true); //height=width
+        Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);
         newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
         setThumb(newThumb);
         getThumb().setColorFilter(thumbColor, PorterDuff.Mode.MULTIPLY);

@@ -29,4 +29,20 @@
         app:progressColor="#FF4444"
      />
 
+    <app.minimize.com.seek_bar_compat.SeekBarCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="300sp"
+        app:thumbColor="#fcff00"
+        app:progressColor="#ff6e00"
+        />
+
+    <app.minimize.com.seek_bar_compat.SeekBarCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="300sp"
+        app:thumbColor="#00c4ff"
+        app:progressColor="#11ff69"
+        />
+
 </LinearLayout>

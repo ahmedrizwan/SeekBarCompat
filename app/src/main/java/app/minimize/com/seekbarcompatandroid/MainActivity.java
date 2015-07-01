@@ -1,12 +1,9 @@
 package app.minimize.com.seekbarcompatandroid;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 
@@ -18,18 +15,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar);
-        seekBarCompat.setThumbColor(Color.RED);
-        seekBarCompat.setProgressColor(Color.CYAN);
 
         SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
-        seekBarCompatTwo.setThumbColor(Color.BLUE);
-        seekBarCompatTwo.setProgressColor(Color.GREEN);
 
 
-        SeekBarCompat seekBarCompatCode = (SeekBarCompat) View.inflate(this, R.layout.seekbar_compat, null);
-        seekBarCompatCode.setThumbColor(Color.RED);
-        ((LinearLayout) findViewById(R.id.container)).addView(seekBarCompatCode);
-
+//        Inflating a seekBar and adding it to layout
+//        SeekBarCompat seekBarCompatCode = (SeekBarCompat) View.inflate(this, R.layout.seekbar_compat, null);
+//        seekBarCompatCode.setThumbColor(Color.RED);
+//        ((LinearLayout) findViewById(R.id.container)).addView(seekBarCompatCode);
 
     }
 
