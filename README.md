@@ -34,7 +34,7 @@ seekBarCompat.setProgressColor(Color.CYAN);
 ```
 
 ##Download 
-```
+```Gradle
 repositories {
     maven {
         url  "http://dl.bintray.com/ahmedrizwan/maven"
