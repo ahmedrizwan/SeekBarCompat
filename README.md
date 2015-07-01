@@ -1,6 +1,18 @@
 # SeekBarCompat
 A support library for the material design SeekBar in Android for API 16 and above.
 
+##Screenshot
+
+<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/seekbar.png" align="left"  width="448" />
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 ##Example
 You can set the thumbColor and progressColor in Xml like
 ```xml
