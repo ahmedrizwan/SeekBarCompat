@@ -38,5 +38,5 @@ seekBarCompat.setProgressColor(Color.CYAN);
 ##Download 
 Repository available on jCenter
 ```Gradle
-compile 'com.minimize.library:seekbar-compat:0.1.0'
+compile 'com.minimize.library:seekbar-compat:0.1.1'
 ```
