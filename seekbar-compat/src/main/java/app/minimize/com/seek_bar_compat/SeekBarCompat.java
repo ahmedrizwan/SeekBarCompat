@@ -253,7 +253,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * @param scale scale value
      */
     private void updateThumb(final int thumbColor, final float scale) {
-        int h = (int) (mThumb.getIntrinsicHeight()*scale); //scale the size of thumb to 1.1
+        int h = mThumb.getIntrinsicHeight(); //scale the size of thumb to 1.1
         Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
         Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, h, h, true); //height=width
         Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);

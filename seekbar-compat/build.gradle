@@ -14,7 +14,7 @@ ext {
     artifact = 'seekbar-compat'
 
     libraryDescription = 'A material design wrapper around SeekBar widget, which draws the SeekBar with consistent colors from Android APIs 16 and above.'
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.1'
 
     developerId = 'ahmedrizwan'
     developerName = 'Ahmed Rizwan'
