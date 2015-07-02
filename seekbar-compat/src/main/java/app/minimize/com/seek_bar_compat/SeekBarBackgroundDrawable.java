@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
 public class SeekBarBackgroundDrawable extends Drawable {
@@ -26,9 +25,10 @@ public class SeekBarBackgroundDrawable extends Drawable {
     }
 
     @Override
-    public void setAlpha(int i) {
-        mPaint.setAlpha(i);
+    public void setAlpha(final int alpha) {
+
     }
+
 
     @Override
     public void setColorFilter(ColorFilter colorFilter) {
@@ -37,7 +37,8 @@ public class SeekBarBackgroundDrawable extends Drawable {
 
     @Override
     public int getOpacity() {
-        return PixelFormat.TRANSLUCENT;
+        return 0;
     }
+
 }
 

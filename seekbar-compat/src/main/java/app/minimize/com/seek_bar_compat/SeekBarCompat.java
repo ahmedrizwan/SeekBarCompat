@@ -27,6 +27,7 @@ import java.util.concurrent.Callable;
  */
 public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
 
+    private static final String TAG = "SeekBarCompat";
     /***
      * Thumb and Progress colors
      */
@@ -171,8 +172,9 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                 LayerDrawable ld = (LayerDrawable) getProgressDrawable();
                 ld.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
 
-                setBackgroundDrawable(new SeekBarBackgroundDrawable(context, mProgressBackgroundColor,
-                        getResources().getDimension(R.dimen.default_margin)));
+                SeekBarBackgroundDrawable seekBarBackgroundDrawable = new SeekBarBackgroundDrawable(context,
+                        mProgressBackgroundColor,getResources().getDimension(R.dimen.default_margin));
+                setBackground(seekBarBackgroundDrawable);
 
                 setOnTouchListener(this);
 

@@ -9,7 +9,6 @@
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:orientation="vertical"
               android:paddingTop="@dimen/activity_vertical_margin"
-              android:background="@android:color/black"
               tools:context=".MainActivity">
 
     <app.minimize.com.seek_bar_compat.SeekBarCompat
