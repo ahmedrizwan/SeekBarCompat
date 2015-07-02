@@ -3,7 +3,7 @@ A support library for the material design SeekBar in Android for API 16 and abov
 
 ##Screenshot
 
-<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/seekbar.png" align="left"  width="448" />
+<img src="https://cloud.githubusercontent.com/assets/4357275/8476938/8b6eb8fc-20df-11e5-8989-f0886d60d5a7.png" align="left"  width="448" />
 <br/>
 <br/>
 <br/>
