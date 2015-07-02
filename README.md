@@ -26,6 +26,8 @@ The SeekBarCompat picks up the PrimaryColor by default, but you can set custom c
         app:progressColor="#AFF123"
         app:thumbColor="#FF4444"/>
 ```
+In Xml you can also specify *progressBackgroundColor* (optional) - by default the progressBackground is Black.
+
 Note: specifying *maxHeight* fixes the gravity/positioning of thumb and progress-line
 
 ####Programmatically
@@ -38,5 +40,5 @@ seekBarCompat.setProgressColor(Color.CYAN);
 ##Download 
 Repository available on jCenter
 ```Gradle
-compile 'com.minimize.library:seekbar-compat:0.1.1'
+compile 'com.minimize.library:seekbar-compat:0.1.2'
 ```
