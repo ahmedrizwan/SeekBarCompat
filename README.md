@@ -3,7 +3,13 @@ A support library for the material design SeekBar in Android for API 16 and abov
 
 ##Screenshot
 On Lollipop (and above)
-
+<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/post.png" align="left"  width="448" />
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 Pre-Lollipop (16 and above)
 
 
