@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar);
+//        seekBarCompat.setThumbColor(Color.RED);
 
         SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
 
