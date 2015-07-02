@@ -6,6 +6,9 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
+/***
+ * A drawable used as a ProgressBackgroundDrawable
+ */
 public class SeekBarBackgroundDrawable extends Drawable {
 
     private Paint mPaint = new Paint();
