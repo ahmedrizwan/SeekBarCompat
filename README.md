@@ -14,7 +14,7 @@ A support library for the material design SeekBar in Android for API 16 and abov
 <br/>
 <br/>
 ##Example
-The SeekBarCompat picks up the PrimaryColor by default, but you set custom colors for SeekBar thumb and progress too, both in xml and programmatically.
+The SeekBarCompat picks up the PrimaryColor by default, but you can set custom colors for SeekBar thumb and progress too, both in xml and programmatically.
 ####Xml 
 
 ```xml
