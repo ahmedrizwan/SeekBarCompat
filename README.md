@@ -1,6 +1,9 @@
 # SeekBarCompat
 A support library for the material design SeekBar in Android for API 16 and above.
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SeekBarCompat-green.svg?style=flat)](https://android-arsenal.com/details/1/2084)
+
+
 ##Screenshot
 
 On Lollipop (and above)
