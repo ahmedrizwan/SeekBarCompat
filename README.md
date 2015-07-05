@@ -57,6 +57,15 @@ seekBarCompat.setProgressBackgroundColor(Color.BLUE);
 
 ##Download 
 Repository available on jCenter
+
+*If the dependency fails to resolve, add this to your project repositories*
+```Gradle
+repositories {
+    maven {
+        url  "http://dl.bintray.com/ahmedrizwan/maven" 
+    }
+}
+```
 ```Gradle
 compile 'com.minimize.library:seekbar-compat:0.1.3'
 ```
