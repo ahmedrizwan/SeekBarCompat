@@ -1,16 +1,17 @@
 package app.minimize.com.seek_bar_compat;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,11 +24,12 @@ import java.util.concurrent.Callable;
 
 /**
  * Created by ahmedrizwan on 6/21/15.
- * SeekBarCompat : A simple view implementation for consistent SeekBar design on APIs 16 and above
+ * SeekBarCompat : A simple view implementation for consistent SeekBar design on APIs 14 and above
  */
 public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
 
     private static final String TAG = "SeekBarCompat";
+
     /***
      * Thumb and Progress colors
      */
@@ -76,23 +78,33 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
     ColorStateList mColorStateListThumb, mColorStateListProgress, mColorStateListProgressBackground;
 
     /***
+     * Used for APIs below 21 to determine height of the seekBar as well as the new thumb drawable
+     */
+    private int mOriginalThumbHeight;
+
+    /***
      * Updates the thumbColor dynamically
      *
      * @param thumbColor Color representing thumb drawable
      */
     public void setThumbColor(final int thumbColor) {
         mThumbColor = thumbColor;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            colorsThumb[0] = thumbColor;
-            colorsThumb[1] = thumbColor;
-            mColorStateListThumb = new ColorStateList(states, colorsThumb);
-            setThumbTintList(mColorStateListThumb);
-        } else {
-            //load up the drawable and apply color
-            updateThumb(thumbColor);
+        if (lollipopAndAbove()) {
+            setupThumbColorLollipop();
         }
         invalidate();
         requestLayout();
+    }
+
+    /***
+     * Method called for APIs 21 and above to setup thumb Color
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupThumbColorLollipop() {
+        colorsThumb[0] = mThumbColor;
+        colorsThumb[1] = mThumbColor;
+        mColorStateListThumb = new ColorStateList(states, colorsThumb);
+        setThumbTintList(mColorStateListThumb);
     }
 
     /***
@@ -102,18 +114,93 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      */
     public void setProgressColor(final int progressColor) {
         mProgressColor = progressColor;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            colorsProgress[0] = progressColor;
-            colorsProgress[1] = progressColor;
-            mColorStateListProgress = new ColorStateList(states, colorsProgress);
-            setProgressTintList(mColorStateListProgress);
+        if (lollipopAndAbove()) {
+            setupProgressColorLollipop();
         } else {
-            //load up the drawable and apply color
-            LayerDrawable ld = (LayerDrawable) getProgressDrawable();
-            ld.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
+            setupProgressColor();
+        }
+
+        invalidate();
+        requestLayout();
+    }
+
+    /***
+     * Checks if the device is running API greater than 21
+     *
+     * @return true if lollipop and above
+     */
+    private boolean lollipopAndAbove() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    /***
+     * Method called from APIs below 21 to setup Progress Color
+     */
+    private void setupProgressColor() {
+        //load up the drawable and apply color
+        LayerDrawable ld = (LayerDrawable) getProgressDrawable();
+        ScaleDrawable shape = (ScaleDrawable) (ld.findDrawableByLayerId(android.R.id.progress));
+        shape.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
+
+        //set the background to transparent
+        NinePatchDrawable ninePatchDrawable = (NinePatchDrawable) (ld.findDrawableByLayerId(android.R.id.background));
+        ninePatchDrawable.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN);
+    }
+
+    /***
+     * Method called from APIs >= 21 to setup Progress Color
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupProgressColorLollipop() {
+        colorsProgress[0] = mProgressColor;
+        colorsProgress[1] = mProgressColor;
+        mColorStateListProgress = new ColorStateList(states, colorsProgress);
+        setProgressTintList(mColorStateListProgress);
+    }
+
+    /***
+     * Updates the progressBackgroundColor dynamically
+     *
+     * @param progressBackgroundColor Color representing progress drawable
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void setProgressBackgroundColor(final int progressBackgroundColor) {
+        mProgressBackgroundColor = progressBackgroundColor;
+        if (lollipopAndAbove()) {
+            setupProgressBackgroundLollipop();
+        } else {
+            setupProgressBackground();
         }
         invalidate();
         requestLayout();
+    }
+
+    /***
+     * Method called from APIs 21 and above to setup the Progress-background-line Color
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupProgressBackgroundLollipop() {
+        colorsProgressBackground[0] = mProgressBackgroundColor;
+        colorsProgressBackground[1] = mProgressBackgroundColor;
+        mColorStateListProgressBackground = new ColorStateList(states, colorsProgressBackground);
+        setProgressBackgroundTintList(mColorStateListProgressBackground);
+    }
+
+    /***
+     * Method called from APIs below 21 to setup the Progress-background-line Color
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void setupProgressBackground() {
+        //load up the drawable and apply color
+        SeekBarBackgroundDrawable seekBarBackgroundDrawable = new SeekBarBackgroundDrawable(getContext(),
+                mProgressBackgroundColor, getResources().getDimension(R.dimen.default_margin));
+        if (belowJellybean())
+            setBackgroundDrawable(seekBarBackgroundDrawable);
+        else
+            setBackground(seekBarBackgroundDrawable);
+
+        getBackground().setColorFilter(new PorterDuffColorFilter(mProgressBackgroundColor, PorterDuff.Mode.SRC_IN));
+
     }
 
     /***
@@ -131,6 +218,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * @param context Context Object
      * @param attrs   Attributes passed through XML
      */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public SeekBarCompat(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.getTheme()
@@ -143,48 +231,23 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
             mProgressColor = a.getColor(R.styleable.SeekBarCompat_progressColor, getPrimaryColorFromSelectedTheme(context));
             mProgressBackgroundColor = a.getColor(R.styleable.SeekBarCompat_progressBackgroundColor, Color.BLACK);
 
-            //Thumb Color
-            colorsThumb[0] = mThumbColor;
-            colorsThumb[1] = mThumbColor;
-            mColorStateListThumb = new ColorStateList(states, colorsThumb);
-
-            //Progress Color
-            colorsProgress[0] = mProgressColor;
-            colorsProgress[1] = mProgressColor;
-            mColorStateListProgress = new ColorStateList(states, colorsProgress);
-
-            //Progress Background Color
-            colorsProgressBackground[0] = mProgressBackgroundColor;
-            colorsProgressBackground[1] = mProgressBackgroundColor;
-            mColorStateListProgressBackground = new ColorStateList(states, colorsProgressBackground);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                setThumbTintList(mColorStateListThumb);
-                setProgressTintList(mColorStateListProgress);
-                setProgressBackgroundTintList(mColorStateListProgressBackground);
-
+            if (lollipopAndAbove()) {
+                setupThumbColorLollipop();
+                setupProgressColorLollipop();
+                setupProgressBackgroundLollipop();
             } else {
-                //load up the drawable and apply color
-                mThumb = ContextCompat.getDrawable(context, R.drawable.ic_circle);
-
-                updateThumb(mThumbColor);
-
-                LayerDrawable ld = (LayerDrawable) getProgressDrawable();
-                ld.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
-
-                SeekBarBackgroundDrawable seekBarBackgroundDrawable = new SeekBarBackgroundDrawable(context,
-                        mProgressBackgroundColor,getResources().getDimension(R.dimen.default_margin));
-                setBackground(seekBarBackgroundDrawable);
-
+                setupProgressColor();
+                setupProgressBackground();
                 setOnTouchListener(this);
-
                 triggerMethodOnceViewIsDisplayed(this, new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        layoutParams.height = (int) (mThumb.getIntrinsicHeight() * 1.1);
+                        mOriginalThumbHeight = mThumb.getIntrinsicHeight();
+                        mThumb = new SeekBarThumbDrawable(mThumbColor, mOriginalThumbHeight, getWidth());
+                        setThumb(mThumb);
+                        layoutParams.height = mOriginalThumbHeight;
                         setLayoutParams(layoutParams);
-
                         return null;
                     }
                 });
@@ -192,6 +255,10 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         } finally {
             a.recycle();
         }
+    }
+
+    private boolean belowJellybean() {
+        return Build.VERSION.SDK_INT < 16;
     }
 
     /***
@@ -235,6 +302,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         });
     }
 
+
     /***
      * Touch listener for changing Thumb Drawable
      *
@@ -244,63 +312,30 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
-//        if(Build.VERSION.SDK_INT < 20)
+        int x = (int) event.getX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                // Pressed state
-                updateThumb(mThumbColor, (float) 1.1);
+                ((SeekBarThumbDrawable) mThumb).updatePosition(x);
+                ((SeekBarThumbDrawable) mThumb).expandMode();
                 break;
-
+            case MotionEvent.ACTION_MOVE:
+                ((SeekBarThumbDrawable) mThumb).updatePosition(x);
+                break;
             case MotionEvent.ACTION_UP:
-                updateThumb(mThumbColor);
+                ((SeekBarThumbDrawable) mThumb).shrinkMode();
                 break;
         }
-
         return false;
     }
 
     /***
-     * Expands thumb size to be that of the SeekBar
+     * Called to substitute getThumb() for APIs below 16
      *
-     * @param height Height of the SeekBar
+     * @param thumb
      */
-    private void expandThumb(int height) {
-        mThumb.setBounds(0, 0, mThumb.getIntrinsicWidth(), height);
-        //force a redraw
-        int progress = getProgress();
-        setProgress(0);
-        setProgress(progress);
+    @Override
+    public void setThumb(final Drawable thumb) {
+        super.setThumb(thumb);
+        mThumb = thumb;
     }
-
-    /***
-     * Draws scaled version of the thumb from bitmap
-     *
-     * @param thumbColor color
-     * @param scale      scale value
-     */
-    private void updateThumb(final int thumbColor, final float scale) {
-        int h = mThumb.getIntrinsicHeight(); //scale the size of thumb to 1.1
-        Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
-        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, h, h, true); //height=width
-        Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);
-        newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
-        setThumb(newThumb);
-        getThumb().setColorFilter(thumbColor, PorterDuff.Mode.MULTIPLY);
-    }
-
-    /***
-     * Draws the thumb from bitmap
-     *
-     * @param thumbColor color
-     */
-    private void updateThumb(final int thumbColor) {
-        int h = (int) (mThumb.getIntrinsicHeight() * 0.6); //scale the size of thumb to 1.1
-        Bitmap bmpOrg = ((BitmapDrawable) mThumb).getBitmap();
-        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, h, h, true); //height=width
-        Drawable newThumb = new BitmapDrawable(getResources(), bmpScaled);
-        newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
-        setThumb(newThumb);
-        getThumb().setColorFilter(thumbColor, PorterDuff.Mode.MULTIPLY);
-    }
-
 }
