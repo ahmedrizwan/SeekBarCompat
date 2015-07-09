@@ -81,6 +81,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * Used for APIs below 21 to determine height of the seekBar as well as the new thumb drawable
      */
     private int mOriginalThumbHeight;
+    private int mMax;
 
     /***
      * Updates the thumbColor dynamically
@@ -91,6 +92,9 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         mThumbColor = thumbColor;
         if (lollipopAndAbove()) {
             setupThumbColorLollipop();
+        } else{
+            if(mThumb!=null)
+                ((SeekBarThumbDrawable) mThumb).setColor(mThumbColor);
         }
         invalidate();
         requestLayout();
@@ -200,7 +204,6 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
             setBackground(seekBarBackgroundDrawable);
 
         getBackground().setColorFilter(new PorterDuffColorFilter(mProgressBackgroundColor, PorterDuff.Mode.SRC_IN));
-
     }
 
     /***
@@ -239,12 +242,14 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                 setupProgressColor();
                 setupProgressBackground();
                 setOnTouchListener(this);
+                mThumb = new SeekBarThumbDrawable(mThumbColor, SeekBarCompat.this);
                 triggerMethodOnceViewIsDisplayed(this, new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        mOriginalThumbHeight = mThumb.getIntrinsicHeight();
-                        mThumb = new SeekBarThumbDrawable(mThumbColor, mOriginalThumbHeight, getWidth());
+                        mOriginalThumbHeight = getThumb().getIntrinsicHeight();
+                        ((SeekBarThumbDrawable) mThumb).setMax(getMax());
+                        ((SeekBarThumbDrawable) mThumb).setHeight(mOriginalThumbHeight);
                         setThumb(mThumb);
                         layoutParams.height = mOriginalThumbHeight;
                         setLayoutParams(layoutParams);
@@ -315,11 +320,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         int x = (int) event.getX();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                ((SeekBarThumbDrawable) mThumb).updatePosition(x);
                 ((SeekBarThumbDrawable) mThumb).expandMode();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                ((SeekBarThumbDrawable) mThumb).updatePosition(x);
                 break;
             case MotionEvent.ACTION_UP:
                 ((SeekBarThumbDrawable) mThumb).shrinkMode();
@@ -337,5 +338,18 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
     public void setThumb(final Drawable thumb) {
         super.setThumb(thumb);
         mThumb = thumb;
+    }
+
+    @Override
+    public void setOnSeekBarChangeListener(final OnSeekBarChangeListener l) {
+        super.setOnSeekBarChangeListener(l);
+        mThumb.invalidateSelf();
+    }
+
+    @Override
+    public synchronized void setMax(final int max) {
+        super.setMax(max);
+        if (mThumb != null)
+            ((SeekBarThumbDrawable) mThumb).setMax(max);
     }
 }

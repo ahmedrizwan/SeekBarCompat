@@ -10,16 +10,16 @@ import android.graphics.drawable.ShapeDrawable;
  */
 public class SeekBarThumbDrawable extends ShapeDrawable {
     private static final String TAG = "SeekBarThumb";
-    private final int mHeight;
+    private int mHeight;
+    private SeekBarCompat mSeekBarCompat;
     private Paint mPaint = new Paint();
-    private int mProgress;
-    private int mTotalWidth;
-    private int shrinkScale=5;
+    private float xMultiple;
+    private int shrinkScale = 5;
+    private float mMax;
+    private float mWidth;
 
-    public SeekBarThumbDrawable(final int thumbColor, int height, int totalWidth){
-        mHeight = height;
-        mTotalWidth = totalWidth;
-        mProgress = height/2;
+    public SeekBarThumbDrawable(final int thumbColor, SeekBarCompat seekBarCompat) {
+        mSeekBarCompat = seekBarCompat;
         mPaint.setColor(thumbColor);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setAntiAlias(true);
@@ -27,7 +27,10 @@ public class SeekBarThumbDrawable extends ShapeDrawable {
 
     @Override
     public void draw(final Canvas canvas) {
-        canvas.drawCircle (mProgress-mHeight/2, mHeight/2, mHeight/shrinkScale, mPaint);
+        try {
+            canvas.drawCircle(mSeekBarCompat.getProgress() * xMultiple, mHeight / 2, mHeight / shrinkScale, mPaint);
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -45,22 +48,29 @@ public class SeekBarThumbDrawable extends ShapeDrawable {
         return 0;
     }
 
-
-    public void updatePosition(final int xPos) {
-        if(xPos>=mHeight/2 && xPos<=mTotalWidth-mHeight/2) {
-            mProgress = xPos;
-            this.invalidateSelf();
-        }
-    }
-
-    public void shrinkMode(){
+    public void shrinkMode() {
         shrinkScale = 5;
         this.invalidateSelf();
     }
 
-    public void expandMode(){
+    public void expandMode() {
         shrinkScale = 3;
         this.invalidateSelf();
     }
 
+    public void setMax(final int max) {
+        mMax = max;
+        xMultiple = (mWidth - mHeight) / mMax;
+    }
+
+    public void setHeight(int height) {
+        mHeight = height;
+        mWidth = mSeekBarCompat.getWidth();
+        xMultiple = (mSeekBarCompat.getWidth() - height) / mMax;
+    }
+
+    public void setColor(int thumbColor) {
+        mPaint.setColor(thumbColor);
+        invalidateSelf();
+    }
 }

@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
         seekBarCompatTwo.setProgressBackgroundColor(Color.RED);
 
-
     }
 
     @Override
