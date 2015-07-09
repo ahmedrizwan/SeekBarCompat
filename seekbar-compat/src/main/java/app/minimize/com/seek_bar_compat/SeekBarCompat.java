@@ -39,7 +39,6 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * Thumb drawable
      */
     Drawable mThumb;
-
     /***
      * States for Lollipop ColorStateList
      */
@@ -92,8 +91,8 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         mThumbColor = thumbColor;
         if (lollipopAndAbove()) {
             setupThumbColorLollipop();
-        } else{
-            if(mThumb!=null)
+        } else {
+            if (mThumb != null)
                 ((SeekBarThumbDrawable) mThumb).setColor(mThumbColor);
         }
         invalidate();
@@ -343,13 +342,15 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
     @Override
     public void setOnSeekBarChangeListener(final OnSeekBarChangeListener l) {
         super.setOnSeekBarChangeListener(l);
-        mThumb.invalidateSelf();
+        if (!lollipopAndAbove())
+            mThumb.invalidateSelf();
     }
 
     @Override
     public synchronized void setMax(final int max) {
         super.setMax(max);
-        if (mThumb != null)
+        if (mThumb != null && mThumb instanceof SeekBarThumbDrawable)
             ((SeekBarThumbDrawable) mThumb).setMax(max);
+
     }
 }

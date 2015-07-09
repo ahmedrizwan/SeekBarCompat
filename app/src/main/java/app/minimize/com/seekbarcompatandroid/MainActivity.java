@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         seekBarCompat.setThumbColor(Color.BLACK);
         seekBarCompat.setProgressBackgroundColor(Color.TRANSPARENT);
         seekBarCompat.setProgressColor(Color.RED);
+        seekBarCompat.setProgress(50);
 
         SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
         seekBarCompatTwo.setProgressBackgroundColor(Color.RED);
