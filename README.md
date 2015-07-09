@@ -1,12 +1,12 @@
 # SeekBarCompat
-A support library for the material design SeekBar in Android for API 16 and above.
+A support library for the material design SeekBar in Android for API 14 and above.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SeekBarCompat-green.svg?style=flat)](https://android-arsenal.com/details/1/2084)
 
 
 ##Screenshot
 
-On Lollipop (and above)
+On APIs 14 and above - Seekbars would look something like
 
 <img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/post.png" align="left"  width="448" />
 <br/>
@@ -18,15 +18,6 @@ On Lollipop (and above)
 <br/>
 <br/>
 
-Pre-Lollipop (16 and above)
-
-<img src="https://cloud.githubusercontent.com/assets/4357275/8476938/8b6eb8fc-20df-11e5-8989-f0886d60d5a7.png" align="left"  width="448" />
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 
 
 ##Example
@@ -38,14 +29,11 @@ The SeekBarCompat picks up the PrimaryColor by default, but you can set custom c
         android:id="@+id/materialSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="300sp"
         app:progressColor="#AFF123"
         app:progressBackgroundColor="#000"
         app:thumbColor="#FF4444"/>
 ```
 In Xml you can also specify *progressBackgroundColor* - by default the progressBackgroundColor (progress-line color) is Black.
-
-Note: specifying *maxHeight* fixes the gravity/positioning issues of thumb and progress-line
 
 ####Programmatically
 ```java
@@ -67,7 +55,7 @@ repositories {
 }
 ```
 ```Gradle
-compile 'com.minimize.library:seekbar-compat:0.1.3'
+compile 'com.minimize.library:seekbar-compat:0.2.0'
 ```
 
 ##License 
