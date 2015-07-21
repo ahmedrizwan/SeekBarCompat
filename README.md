@@ -34,6 +34,8 @@ The SeekBarCompat picks up the PrimaryColor by default, but you can set custom c
         app:progressBackgroundColor="#000"
         app:thumbColor="#FF4444"/>
 ```
+**Note: Add maxHeight attribute in xml - it fixes the thumb gravity issues on APIs < 21**
+
 In Xml you can also specify *progressBackgroundColor* - by default the progressBackgroundColor (progress-line color) is Black.
 
 ####Programmatically
