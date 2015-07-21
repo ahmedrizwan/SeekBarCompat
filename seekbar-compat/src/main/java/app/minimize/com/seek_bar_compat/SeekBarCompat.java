@@ -4,15 +4,19 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +33,7 @@ import java.util.concurrent.Callable;
 public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
 
     private static final String TAG = "SeekBarCompat";
+    private int mActualBackgroundColor;
 
     /***
      * Thumb and Progress colors
@@ -80,7 +85,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * Used for APIs below 21 to determine height of the seekBar as well as the new thumb drawable
      */
     private int mOriginalThumbHeight;
-    private int mMax;
+    private int mAlpha = 255;
 
     /***
      * Updates the thumbColor dynamically
@@ -92,8 +97,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         if (lollipopAndAbove()) {
             setupThumbColorLollipop();
         } else {
-            if (mThumb != null)
-                ((SeekBarThumbDrawable) mThumb).setColor(mThumbColor);
+            gradientDrawable.setColor(thumbColor);
         }
         invalidate();
         requestLayout();
@@ -104,10 +108,14 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setupThumbColorLollipop() {
-        colorsThumb[0] = mThumbColor;
-        colorsThumb[1] = mThumbColor;
-        mColorStateListThumb = new ColorStateList(states, colorsThumb);
-        setThumbTintList(mColorStateListThumb);
+        if (lollipopAndAbove()) {
+            colorsThumb[0] = mThumbColor;
+            colorsThumb[1] = mThumbColor;
+            mColorStateListThumb = new ColorStateList(states, colorsThumb);
+            setThumbTintList(mColorStateListThumb);
+        } else {
+
+        }
     }
 
     /***
@@ -194,15 +202,15 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setupProgressBackground() {
-        //load up the drawable and apply color
+//load up the drawable and apply color
         SeekBarBackgroundDrawable seekBarBackgroundDrawable = new SeekBarBackgroundDrawable(getContext(),
-                mProgressBackgroundColor, getResources().getDimension(R.dimen.default_margin));
+                mProgressBackgroundColor, mActualBackgroundColor, getPaddingLeft(), getPaddingRight());
         if (belowJellybean())
             setBackgroundDrawable(seekBarBackgroundDrawable);
         else
             setBackground(seekBarBackgroundDrawable);
 
-        getBackground().setColorFilter(new PorterDuffColorFilter(mProgressBackgroundColor, PorterDuff.Mode.SRC_IN));
+//        getBackground().setColorFilter(new PorterDuffColorFilter(mProgressBackgroundColor, PorterDuff.Mode.SRC_IN));
     }
 
     /***
@@ -213,6 +221,8 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
     public SeekBarCompat(final Context context) {
         super(context);
     }
+
+    GradientDrawable gradientDrawable = new GradientDrawable();
 
     /***
      * Constructor for creating SeekBarCompat through XML
@@ -228,37 +238,78 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                         attrs,
                         R.styleable.SeekBarCompat,
                         0, 0);
+        int array[] = {android.R.attr.background};
+        TypedArray b = context.getTheme()
+                .obtainStyledAttributes(attrs, array, 0, 0);
         try {
             mThumbColor = a.getColor(R.styleable.SeekBarCompat_thumbColor, getPrimaryColorFromSelectedTheme(context));
             mProgressColor = a.getColor(R.styleable.SeekBarCompat_progressColor, getPrimaryColorFromSelectedTheme(context));
             mProgressBackgroundColor = a.getColor(R.styleable.SeekBarCompat_progressBackgroundColor, Color.BLACK);
+            mActualBackgroundColor = b.getColor(0, Color.TRANSPARENT);
 
             if (lollipopAndAbove()) {
                 setupThumbColorLollipop();
                 setupProgressColorLollipop();
                 setupProgressBackgroundLollipop();
+                getThumb().setAlpha(mAlpha);
             } else {
                 setupProgressColor();
-                setupProgressBackground();
+
                 setOnTouchListener(this);
-                mThumb = new SeekBarThumbDrawable(mThumbColor, SeekBarCompat.this);
+
+                gradientDrawable.setShape(GradientDrawable.OVAL);
+                gradientDrawable.setSize(120, 120);
+                gradientDrawable.setColor(mThumbColor);
+
                 triggerMethodOnceViewIsDisplayed(this, new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
-                        mOriginalThumbHeight = getThumb().getIntrinsicHeight();
-                        ((SeekBarThumbDrawable) mThumb).setMax(getMax());
-                        ((SeekBarThumbDrawable) mThumb).setHeight(mOriginalThumbHeight);
-                        setThumb(mThumb);
-                        layoutParams.height = mOriginalThumbHeight;
-                        setLayoutParams(layoutParams);
+                        mOriginalThumbHeight = mThumb.getIntrinsicHeight();
+                        setThumb(setDrawableDimensions(gradientDrawable, mOriginalThumbHeight / 3,
+                                mOriginalThumbHeight / 3));
+                        if (layoutParams.height < mOriginalThumbHeight)
+                            layoutParams.height = mOriginalThumbHeight;
+                        setupProgressBackground();
                         return null;
                     }
                 });
             }
         } finally {
             a.recycle();
+            b.recycle();
         }
+    }
+
+    private Drawable setDrawableDimensions(Drawable drawable, int height, int width) {
+        Bitmap bmpOrg = drawableToBitmap(drawable);
+        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, height, width, true); //height=width
+        Drawable newDrawable = new BitmapDrawable(getResources(), bmpScaled);
+        newDrawable.setBounds(0, 0, newDrawable.getIntrinsicWidth(), newDrawable.getIntrinsicHeight());
+        newDrawable.setAlpha(mAlpha);
+        return newDrawable;
+    }
+
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     private boolean belowJellybean() {
@@ -300,7 +351,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                 try {
                     method.call();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "onGlobalLayout " + e.toString());
                 }
             }
         });
@@ -316,17 +367,21 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
-        int x = (int) event.getX();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                ((SeekBarThumbDrawable) mThumb).expandMode();
-                break;
-            case MotionEvent.ACTION_UP:
-                ((SeekBarThumbDrawable) mThumb).shrinkMode();
-                break;
-        }
+//        int x = (int) event.getX();
+        if (!lollipopAndAbove())
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    setThumb(setDrawableDimensions(gradientDrawable, mOriginalThumbHeight / 2,
+                            mOriginalThumbHeight / 2));
+                    break;
+                case MotionEvent.ACTION_UP:
+                    setThumb(setDrawableDimensions(gradientDrawable, mOriginalThumbHeight / 3,
+                            mOriginalThumbHeight / 3));
+                    break;
+            }
         return false;
     }
+
 
     /***
      * Called to substitute getThumb() for APIs below 16
@@ -339,18 +394,13 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         mThumb = thumb;
     }
 
-    @Override
-    public void setOnSeekBarChangeListener(final OnSeekBarChangeListener l) {
-        super.setOnSeekBarChangeListener(l);
-        if (!lollipopAndAbove())
-            mThumb.invalidateSelf();
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void setThumbAlpha(int alpha) {
+        mAlpha = alpha;
+        if (lollipopAndAbove())
+            getThumb().setAlpha(mAlpha);
+        setLayoutParams(getLayoutParams());
     }
 
-    @Override
-    public synchronized void setMax(final int max) {
-        super.setMax(max);
-        if (mThumb != null && mThumb instanceof SeekBarThumbDrawable)
-            ((SeekBarThumbDrawable) mThumb).setMax(max);
 
-    }
 }

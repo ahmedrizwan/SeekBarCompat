@@ -41,4 +41,15 @@
         app:progressColor="#11ff69"
         />
 
+    <app.minimize.com.seek_bar_compat.SeekBarCompat
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:maxHeight="300sp"
+        android:background="@android:color/black"
+        app:thumbColor="#00c4ff"
+        app:progressColor="#11ff69"
+        app:progressBackgroundColor="@android:color/transparent"
+        android:padding="6dp"
+        />
+
 </LinearLayout>

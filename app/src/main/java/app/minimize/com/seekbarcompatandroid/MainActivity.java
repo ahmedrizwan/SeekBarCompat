@@ -16,10 +16,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar);
-        seekBarCompat.setThumbColor(Color.BLACK);
+        seekBarCompat.setThumbColor(Color.MAGENTA);
         seekBarCompat.setProgressBackgroundColor(Color.TRANSPARENT);
         seekBarCompat.setProgressColor(Color.RED);
         seekBarCompat.setProgress(50);
+
+        seekBarCompat.setThumbAlpha(0);
 
         SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
         seekBarCompatTwo.setProgressBackgroundColor(Color.RED);
