@@ -4,11 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -258,16 +255,17 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                 setOnTouchListener(this);
 
                 gradientDrawable.setShape(GradientDrawable.OVAL);
-                gradientDrawable.setSize(120, 120);
+                gradientDrawable.setSize(50, 50);
                 gradientDrawable.setColor(mThumbColor);
+
 
                 triggerMethodOnceViewIsDisplayed(this, new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
                         mOriginalThumbHeight = mThumb.getIntrinsicHeight();
-                        setThumb(setDrawableDimensions(gradientDrawable, mOriginalThumbHeight / 3,
-                                mOriginalThumbHeight / 3));
+                        gradientDrawable.setSize(mOriginalThumbHeight / 3, mOriginalThumbHeight / 3);
+                        setThumb(gradientDrawable);
                         if (layoutParams.height < mOriginalThumbHeight)
                             layoutParams.height = mOriginalThumbHeight;
                         setupProgressBackground();
@@ -281,36 +279,36 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         }
     }
 
-    private Drawable setDrawableDimensions(Drawable drawable, int height, int width) {
-        Bitmap bmpOrg = drawableToBitmap(drawable);
-        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, height, width, true); //height=width
-        Drawable newDrawable = new BitmapDrawable(getResources(), bmpScaled);
-        newDrawable.setBounds(0, 0, newDrawable.getIntrinsicWidth(), newDrawable.getIntrinsicHeight());
-        newDrawable.setAlpha(mAlpha);
-        return newDrawable;
-    }
+//    private Drawable setDrawableDimensions(Drawable drawable, int height, int width) {
+//        Bitmap bmpOrg = drawableToBitmap(drawable);
+//        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, height, width, true); //height=width
+//        Drawable newDrawable = new BitmapDrawable(getResources(), bmpScaled);
+//        newDrawable.setBounds(0, 0, newDrawable.getIntrinsicWidth(), newDrawable.getIntrinsicHeight());
+//        newDrawable.setAlpha(mAlpha);
+//        return newDrawable;
+//    }
 
-    public static Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap = null;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
+//    public static Bitmap drawableToBitmap(Drawable drawable) {
+//        Bitmap bitmap = null;
+//
+//        if (drawable instanceof BitmapDrawable) {
+//            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+//            if (bitmapDrawable.getBitmap() != null) {
+//                return bitmapDrawable.getBitmap();
+//            }
+//        }
+//
+//        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+//            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+//        } else {
+//            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+//        }
+//
+//        Canvas canvas = new Canvas(bitmap);
+//        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+//        drawable.draw(canvas);
+//        return bitmap;
+//    }
 
     private boolean belowJellybean() {
         return Build.VERSION.SDK_INT < 16;
@@ -367,16 +365,23 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(final View v, final MotionEvent event) {
-//        int x = (int) event.getX();
         if (!lollipopAndAbove())
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    setThumb(setDrawableDimensions(gradientDrawable, mOriginalThumbHeight / 2,
-                            mOriginalThumbHeight / 2));
+                    gradientDrawable = new GradientDrawable();
+                    gradientDrawable.setShape(GradientDrawable.OVAL);
+                    gradientDrawable.setSize(mOriginalThumbHeight/2 , mOriginalThumbHeight/2);
+                    gradientDrawable.setColor(mThumbColor);
+                    gradientDrawable.setDither(true);
+                    setThumb(gradientDrawable);
                     break;
                 case MotionEvent.ACTION_UP:
-                    setThumb(setDrawableDimensions(gradientDrawable, mOriginalThumbHeight / 3,
-                            mOriginalThumbHeight / 3));
+                    gradientDrawable = new GradientDrawable();
+                    gradientDrawable.setShape(GradientDrawable.OVAL);
+                    gradientDrawable.setSize(mOriginalThumbHeight/3, mOriginalThumbHeight/3);
+                    gradientDrawable.setColor(mThumbColor);
+                    gradientDrawable.setDither(true);
+                    setThumb(gradientDrawable);
                     break;
             }
         return false;

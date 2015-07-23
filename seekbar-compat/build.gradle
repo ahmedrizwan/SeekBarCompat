@@ -13,8 +13,8 @@ ext {
     // module. The artifact name needs to match the name of the library.
     artifact = 'seekbar-compat'
 
-    libraryDescription = 'A material design wrapper around SeekBar widget, which draws the SeekBar with consistent colors from Android APIs 16 and above.'
-    libraryVersion = '0.2.0'
+    libraryDescription = 'A material design wrapper around SeekBar widget, which draws the SeekBar with consistent colors from Android APIs 14 and above.'
+    libraryVersion = '0.2.1'
 
     developerId = 'ahmedrizwan'
     developerName = 'Ahmed Rizwan'
