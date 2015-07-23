@@ -258,13 +258,13 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                 gradientDrawable.setSize(50, 50);
                 gradientDrawable.setColor(mThumbColor);
 
-
                 triggerMethodOnceViewIsDisplayed(this, new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
                         ViewGroup.LayoutParams layoutParams = getLayoutParams();
                         mOriginalThumbHeight = mThumb.getIntrinsicHeight();
                         gradientDrawable.setSize(mOriginalThumbHeight / 3, mOriginalThumbHeight / 3);
+                        gradientDrawable.setAlpha(mAlpha);
                         setThumb(gradientDrawable);
                         if (layoutParams.height < mOriginalThumbHeight)
                             layoutParams.height = mOriginalThumbHeight;
@@ -278,37 +278,6 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
             b.recycle();
         }
     }
-
-//    private Drawable setDrawableDimensions(Drawable drawable, int height, int width) {
-//        Bitmap bmpOrg = drawableToBitmap(drawable);
-//        Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, height, width, true); //height=width
-//        Drawable newDrawable = new BitmapDrawable(getResources(), bmpScaled);
-//        newDrawable.setBounds(0, 0, newDrawable.getIntrinsicWidth(), newDrawable.getIntrinsicHeight());
-//        newDrawable.setAlpha(mAlpha);
-//        return newDrawable;
-//    }
-
-//    public static Bitmap drawableToBitmap(Drawable drawable) {
-//        Bitmap bitmap = null;
-//
-//        if (drawable instanceof BitmapDrawable) {
-//            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-//            if (bitmapDrawable.getBitmap() != null) {
-//                return bitmapDrawable.getBitmap();
-//            }
-//        }
-//
-//        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-//            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-//        } else {
-//            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-//        }
-//
-//        Canvas canvas = new Canvas(bitmap);
-//        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-//        drawable.draw(canvas);
-//        return bitmap;
-//    }
 
     private boolean belowJellybean() {
         return Build.VERSION.SDK_INT < 16;
@@ -373,6 +342,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                     gradientDrawable.setSize(mOriginalThumbHeight/2 , mOriginalThumbHeight/2);
                     gradientDrawable.setColor(mThumbColor);
                     gradientDrawable.setDither(true);
+                    gradientDrawable.setAlpha(mAlpha);
                     setThumb(gradientDrawable);
                     break;
                 case MotionEvent.ACTION_UP:
@@ -381,6 +351,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
                     gradientDrawable.setSize(mOriginalThumbHeight/3, mOriginalThumbHeight/3);
                     gradientDrawable.setColor(mThumbColor);
                     gradientDrawable.setDither(true);
+                    gradientDrawable.setAlpha(mAlpha);
                     setThumb(gradientDrawable);
                     break;
             }
