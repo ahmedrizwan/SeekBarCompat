@@ -59,7 +59,7 @@ repositories {
 }
 ```
 ```Gradle
-compile 'com.minimize.library:seekbar-compat:0.2.1'
+compile 'com.minimize.library:seekbar-compat:0.2.2'
 ```
 
 ##License 
