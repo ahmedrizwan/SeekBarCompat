@@ -29,10 +29,13 @@ The SeekBarCompat picks up the PrimaryColor by default, but you can set custom c
         android:id="@+id/materialSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxHeight="300sp"
         app:progressColor="#AFF123"
         app:progressBackgroundColor="#000"
         app:thumbColor="#FF4444"/>
 ```
+**Note: Add maxHeight attribute in xml - it fixes the thumb gravity issues on APIs < 21**
+
 In Xml you can also specify *progressBackgroundColor* - by default the progressBackgroundColor (progress-line color) is Black.
 
 ####Programmatically
@@ -41,6 +44,7 @@ SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar)
 seekBarCompat.setThumbColor(Color.RED);
 seekBarCompat.setProgressColor(Color.CYAN);
 seekBarCompat.setProgressBackgroundColor(Color.BLUE); 
+seekBarCompat.setThumbAlpha(128); //You can also set thumb alpha (programmatically) 
 ```
 
 ##Download 
@@ -55,7 +59,7 @@ repositories {
 }
 ```
 ```Gradle
-compile 'com.minimize.library:seekbar-compat:0.2.0'
+compile 'com.minimize.library:seekbar-compat:0.2.1'
 ```
 
 ##License 
