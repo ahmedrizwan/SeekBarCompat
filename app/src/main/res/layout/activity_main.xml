@@ -21,35 +21,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="300sp"
-        app:thumbColor="#AFF123"
-        app:progressColor="#FF4444"
-     />
 
-    <app.minimize.com.seek_bar_compat.SeekBarCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="300sp"
-        app:thumbColor="#fcff00"
-        app:progressColor="#ff6e00"
+        app:progressColor="#FF4444"
+        app:thumbColor="#AFF123"
         />
 
     <app.minimize.com.seek_bar_compat.SeekBarCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="300sp"
-        app:thumbColor="#00c4ff"
+        app:progressColor="#ff6e00"
+        app:thumbColor="#fcff00"
+        />
+
+    <app.minimize.com.seek_bar_compat.SeekBarCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="300sp"
+        app:thumbAlpha="0"
         app:progressColor="#11ff69"
+        app:progressBackgroundColor="#FF44"
+        app:thumbColor="#00c4ff"
         />
 
     <app.minimize.com.seek_bar_compat.SeekBarCompat
         android:layout_width="match_parent"
         android:layout_height="100sp"
-        android:maxHeight="300sp"
         android:background="@android:color/black"
-        app:thumbColor="#00c4ff"
-        app:progressColor="#11ff69"
-        app:progressBackgroundColor="@android:color/transparent"
+        android:maxHeight="300sp"
         android:padding="6dp"
+        app:thumbAlpha="0.5"
+        app:progressBackgroundColor="@android:color/transparent"
+        app:progressColor="#11ff69"
+        app:thumbColor="#00c4ff"
         />
 
+    <SeekBar android:id="@+id/normalSeekbar"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:alpha="0"/>
 </LinearLayout>

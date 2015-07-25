@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 
@@ -22,9 +23,15 @@ public class MainActivity extends AppCompatActivity {
         seekBarCompat.setProgress(50);
 
         seekBarCompat.setThumbAlpha(0);
+//        seekBarCompat.setEnabled(false);
+
+        SeekBar normalSeekBar = (SeekBar) findViewById(R.id.normalSeekbar);
+//        normalSeekBar.setEnabled(false);
 
         SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
         seekBarCompatTwo.setProgressBackgroundColor(Color.RED);
+        seekBarCompatTwo.setEnabled(false);
+        seekBarCompatTwo.setEnabled(true);
 
     }
 

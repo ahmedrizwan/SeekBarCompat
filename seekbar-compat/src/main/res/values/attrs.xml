@@ -4,5 +4,6 @@
         <attr name="thumbColor" format="color" />
         <attr name="progressColor" format="color"/>
         <attr name="progressBackgroundColor" format="color"/>
+        <attr name="thumbAlpha" format="float"/>
     </declare-styleable>
 </resources>
