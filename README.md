@@ -51,6 +51,9 @@ seekBarCompat.setThumbAlpha(128); //you can also set alpha value for the thumb
 ##Download 
 Repository available on jCenter
 
+```Gradle
+compile 'com.minimize.library:seekbar-compat:0.2.4'
+```
 *If the dependency fails to resolve, add this to your project repositories*
 ```Gradle
 repositories {
@@ -59,9 +62,11 @@ repositories {
     }
 }
 ```
-```Gradle
-compile 'com.minimize.library:seekbar-compat:0.2.3'
-```
+
+##Library Showcase
+- [Labled Music Player] (https://play.google.com/store/apps/details?id=com.pablode.labeledmusicplayer)
+
+**If you're using this library in production - you're welcome to include your project under Library Showcase!**
 
 ##License 
 ```
