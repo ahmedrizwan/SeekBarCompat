@@ -14,7 +14,7 @@ ext {
     artifact = 'seekbar-compat'
 
     libraryDescription = 'A material design wrapper around SeekBar widget, which draws the SeekBar with consistent colors from Android APIs 14 and above.'
-    libraryVersion = '0.2.2'
+    libraryVersion = '0.2.4'
 
     developerId = 'ahmedrizwan'
     developerName = 'Ahmed Rizwan'
@@ -22,12 +22,12 @@ ext {
 }
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion '22.0.1'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -41,7 +41,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.0.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'

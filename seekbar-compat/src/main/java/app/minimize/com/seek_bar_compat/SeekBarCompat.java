@@ -12,6 +12,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
+import android.support.annotation.IntRange;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -333,7 +334,6 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         });
     }
 
-
     /***
      * Touch listener for changing Thumb Drawable
      *
@@ -379,14 +379,24 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
         mThumb = thumb;
     }
 
+    /***
+     * Sets the thumb alpha (Obviously)
+     *
+     * @param alpha
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setThumbAlpha(int alpha) {
+    public void setThumbAlpha(@IntRange(from = 0, to = 255) int alpha) {
         mThumbAlpha = alpha;
         if (!belowJellybean())
             getThumb().setAlpha(mThumbAlpha);
         setLayoutParams(getLayoutParams());
     }
 
+    /***
+     * Enables or disables the whole seekBar!
+     *
+     * @param enabled
+     */
     @Override
     public void setEnabled(final boolean enabled) {
         mIsEnabled = enabled;
