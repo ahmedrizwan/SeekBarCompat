@@ -8,7 +8,7 @@ A support library for the material design SeekBar in Android for API 14 and abov
 
 On APIs 14 and above - Seekbars would look something like
 
-<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/post.png" width="448" />
+<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/seekbarcompat.gif" width="448" />
 
 ##Example
 The SeekBarCompat picks up the PrimaryColor by default, but you can set custom colors for SeekBar thumb and progress too, both in xml and programmatically.
