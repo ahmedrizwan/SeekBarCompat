@@ -8,17 +8,7 @@ A support library for the material design SeekBar in Android for API 14 and abov
 
 On APIs 14 and above - Seekbars would look something like
 
-<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/post.png" align="left"  width="448" />
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-
-
+<img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/post.png" width="448" />
 
 ##Example
 The SeekBarCompat picks up the PrimaryColor by default, but you can set custom colors for SeekBar thumb and progress too, both in xml and programmatically.
@@ -51,6 +41,9 @@ seekBarCompat.setThumbAlpha(128); //you can also set alpha value for the thumb
 ##Download 
 Repository available on jCenter
 
+```Gradle
+compile 'com.minimize.library:seekbar-compat:0.2.4'
+```
 *If the dependency fails to resolve, add this to your project repositories*
 ```Gradle
 repositories {
@@ -59,9 +52,11 @@ repositories {
     }
 }
 ```
-```Gradle
-compile 'com.minimize.library:seekbar-compat:0.2.3'
-```
+
+##Library Showcase
+- [Labled Music Player] (https://play.google.com/store/apps/details?id=com.pablode.labeledmusicplayer)
+
+**If you're using this library in production - you're welcome to include your project under Library Showcase!**
 
 ##License 
 ```
