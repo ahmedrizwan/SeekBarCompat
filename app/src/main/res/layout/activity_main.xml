@@ -1,63 +1,66 @@
-<LinearLayout android:id="@+id/container"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".MainActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    >
 
-    <app.minimize.com.seek_bar_compat.SeekBarCompat
-        android:id="@+id/materialSeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="300sp"
-        app:progressColor="#AFF123"
-        app:thumbColor="#FF4444"/>
+  <app.minimize.com.seek_bar_compat.SeekBarCompat
+      android:id="@+id/materialSeekBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:maxHeight="300sp"
+      app:progressColor="#AFF123"
+      app:thumbColor="#FF4444"
+      />
 
 
-    <app.minimize.com.seek_bar_compat.SeekBarCompat
-        android:id="@+id/materialSeekBarTwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="300sp"
+  <app.minimize.com.seek_bar_compat.SeekBarCompat
+      android:id="@+id/materialSeekBarTwo"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:maxHeight="300sp"
 
-        app:progressColor="#FF4444"
-        app:thumbColor="#AFF123"
-        />
+      app:progressColor="#FF4444"
+      app:thumbColor="#AFF123"
+      />
 
-    <app.minimize.com.seek_bar_compat.SeekBarCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="300sp"
-        app:progressColor="#ff6e00"
-        app:thumbColor="#fcff00"
-        />
+  <app.minimize.com.seek_bar_compat.SeekBarCompat
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:maxHeight="300sp"
+      app:progressColor="#ff6e00"
+      app:thumbColor="#fcff00"
+      />
 
-    <app.minimize.com.seek_bar_compat.SeekBarCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxHeight="300sp"
-        app:thumbAlpha="0"
-        app:progressColor="#11ff69"
-        app:progressBackgroundColor="#FF44"
-        app:thumbColor="#00c4ff"
-        />
+  <app.minimize.com.seek_bar_compat.SeekBarCompat
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:maxHeight="300sp"
+      app:progressBackgroundColor="#FF44"
+      app:progressColor="#11ff69"
+      app:thumbAlpha="0"
+      app:thumbColor="#00c4ff"
+      />
 
-    <app.minimize.com.seek_bar_compat.SeekBarCompat
-        android:layout_width="match_parent"
-        android:layout_height="100sp"
-        android:background="@android:color/black"
-        android:maxHeight="300sp"
-        android:padding="6dp"
-        app:thumbAlpha="0.5"
-        app:progressBackgroundColor="@android:color/transparent"
-        app:progressColor="#11ff69"
-        app:thumbColor="#00c4ff"
-        />
+  <app.minimize.com.seek_bar_compat.SeekBarCompat
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:maxHeight="300sp"
+      app:progressBackgroundColor="@android:color/black"
+      app:progressColor="@android:color/black"
+      app:thumbAlpha="0.5"
+      app:thumbColor="#00c4ff"
+      />
 
-    <SeekBar android:id="@+id/normalSeekbar"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:alpha="0"/>
+  <SeekBar
+      android:id="@+id/normalSeekbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:alpha="0"
+      />
 </LinearLayout>

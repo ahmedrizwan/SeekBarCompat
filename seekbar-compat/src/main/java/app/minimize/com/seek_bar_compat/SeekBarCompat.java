@@ -157,14 +157,18 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
      * Method called from APIs below 21 to setup Progress Color
      */
     private void setupProgressColor() {
-        //load up the drawable and apply color
-        LayerDrawable ld = (LayerDrawable) getProgressDrawable();
-        ScaleDrawable shape = (ScaleDrawable) (ld.findDrawableByLayerId(android.R.id.progress));
-        shape.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
+        try {
+            //load up the drawable and apply color
+            LayerDrawable ld = (LayerDrawable) getProgressDrawable();
+            ScaleDrawable shape = (ScaleDrawable) (ld.findDrawableByLayerId(android.R.id.progress));
+            shape.setColorFilter(mProgressColor, PorterDuff.Mode.SRC_IN);
 
-        //set the background to transparent
-        NinePatchDrawable ninePatchDrawable = (NinePatchDrawable) (ld.findDrawableByLayerId(android.R.id.background));
-        ninePatchDrawable.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN);
+            //set the background to transparent
+            NinePatchDrawable ninePatchDrawable = (NinePatchDrawable) (ld.findDrawableByLayerId(android.R.id.background));
+            ninePatchDrawable.setColorFilter(Color.TRANSPARENT, PorterDuff.Mode.SRC_IN);
+        } catch (NullPointerException e) {
+            //TODO: Handle exception
+        }
     }
 
     /***
