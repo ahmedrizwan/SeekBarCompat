@@ -42,7 +42,7 @@ seekBarCompat.setThumbAlpha(128); //you can also set alpha value for the thumb
 Repository available on jCenter
 
 ```Gradle
-compile 'com.minimize.library:seekbar-compat:0.2.4'
+compile 'com.minimize.library:seekbar-compat:0.2.5'
 ```
 *If the dependency fails to resolve, add this to your project repositories*
 ```Gradle
