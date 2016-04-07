@@ -2,7 +2,6 @@ package app.minimize.com.seekbarcompatandroid;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     SeekBar normalSeekBar = (SeekBar) findViewById(R.id.normalSeekbar);
     //normalSeekBar.setEnabled(false);
-    normalSeekBar.setThumb(ContextCompat.getDrawable(this, R.drawable.seekbar_thumb));
+    //normalSeekBar.setThumb(ContextCompat.getDrawable(this, R.drawable.seekbar_thumb));
     SeekBarCompat seekBarCompatTwo = (SeekBarCompat) findViewById(R.id.materialSeekBarTwo);
     seekBarCompatTwo.setProgressBackgroundColor(Color.RED);
     seekBarCompatTwo.setEnabled(false);
