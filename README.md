@@ -7,15 +7,15 @@
 
 A support library for the material design SeekBar in Android for API 14 and above.
 
-##Screenshot
+## Screenshot
 
 On APIs 14 and above - Seekbars would look something like
 
 <img src="https://raw.githubusercontent.com/ahmedrizwan/SeekBarCompat/master/app/src/main/res/drawable/seekbarcompat.gif" width="448" />
 
-##Example
+## Example
 The SeekBarCompat picks up the PrimaryColor by default, but you can set custom colors for SeekBar thumb and progress too, both in xml and programmatically.
-####Xml 
+#### Xml 
 
 ```xml
 <app.minimize.com.seek_bar_compat.SeekBarCompat
@@ -32,7 +32,7 @@ The SeekBarCompat picks up the PrimaryColor by default, but you can set custom c
 
 In Xml you can also specify *progressBackgroundColor* - by default the progressBackgroundColor (progress-line color) is Black.
 
-####Programmatically
+#### Programmatically
 ```java
 SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar);
 seekBarCompat.setThumbColor(Color.RED);
@@ -41,7 +41,7 @@ seekBarCompat.setProgressBackgroundColor(Color.BLUE);
 seekBarCompat.setThumbAlpha(128); //you can also set alpha value for the thumb
 ```
 
-##Download 
+## Download 
 Repository available on jCenter
 
 ```Gradle
@@ -56,12 +56,12 @@ repositories {
 }
 ```
 
-##Library Showcase
+## Library Showcase
 - [Labeled Music Player] (https://play.google.com/store/apps/details?id=com.pablode.labeledmusicplayer)
 
 **If you're using this library in production - you're welcome to include your project under Library Showcase!**
 
-##License 
+## License 
 ```
 Copyright 2015 Ahmed Rizwan
 
