@@ -56,10 +56,6 @@ repositories {
 }
 ```
 
-## Library Showcase
-
-**If you're using this library in production - you're welcome to include your project under Library Showcase!**
-
 ## License 
 ```
 Copyright 2015 Ahmed Rizwan
