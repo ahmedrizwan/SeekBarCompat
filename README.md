@@ -57,7 +57,6 @@ repositories {
 ```
 
 ## Library Showcase
-- [Labeled Music Player] (https://play.google.com/store/apps/details?id=com.pablode.labeledmusicplayer)
 
 **If you're using this library in production - you're welcome to include your project under Library Showcase!**
 
