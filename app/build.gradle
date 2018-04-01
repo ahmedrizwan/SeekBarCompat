@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-android'
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion '24.0.0 rc2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "app.minimize.com.seekbarcompatandroid"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -19,8 +21,11 @@ android {
     }
 }
 
+ext.support_version = "27.1.0"
+
 dependencies {
-  compile fileTree(include: ['*.jar'], dir: 'libs')
-  compile 'com.android.support:appcompat-v7:23.3.0'
-  compile project(':seekbar-compat')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation project(':seekbar-compat')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
