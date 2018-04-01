@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.SeekBar
 import app.minimize.com.seek_bar_compat.SeekBarCompat
 
 class MainActivity : AppCompatActivity() {
@@ -22,13 +21,10 @@ class MainActivity : AppCompatActivity() {
         seekBarCompat.progress = 30
         seekBarCompat.setThumbAlpha(0)
 
-        val normalSeekBar = findViewById<View>(R.id.normalSeekbar) as SeekBar
-        //normalSeekBar.setEnabled(false);
-        //normalSeekBar.setThumb(ContextCompat.getDrawable(this, R.drawable.seekbar_thumb));
         val seekBarCompatTwo = findViewById<View>(R.id.materialSeekBarTwo) as SeekBarCompat
         seekBarCompatTwo.setProgressBackgroundColor(Color.RED)
+        seekBarCompatTwo.progress = 50
         seekBarCompatTwo.isEnabled = false
-        seekBarCompatTwo.isEnabled = true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

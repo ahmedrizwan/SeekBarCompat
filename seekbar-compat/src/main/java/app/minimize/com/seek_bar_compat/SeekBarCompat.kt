@@ -71,7 +71,6 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
      */
     private var mOriginalThumbHeight: Int = 0
     private var mThumbAlpha = 255
-    private var mIsEnabled = true
 
     internal var gradientDrawable = GradientDrawable()
 
@@ -85,7 +84,7 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
         if (lollipopAndAbove()) {
             setupThumbColorLollipop()
         } else {
-            gradientDrawable.setColor(if (mIsEnabled) thumbColor else Color.LTGRAY)
+            gradientDrawable.setColor(if (isEnabled) thumbColor else Color.LTGRAY)
         }
         invalidate()
         requestLayout()
@@ -235,7 +234,6 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
                     Color.BLACK)
             mThumbAlpha = (a.getFloat(R.styleable.SeekBarCompat_thumbAlpha, 1f) * 255).toInt()
             mActualBackgroundColor = b.getColor(0, Color.TRANSPARENT)
-            mIsEnabled = b.getBoolean(1, true)
             if (lollipopAndAbove()) {
                 splitTrack = false
                 setupThumbColorLollipop()
@@ -243,12 +241,11 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
                 setupProgressBackgroundLollipop()
                 thumb.alpha = mThumbAlpha
             } else {
-                Log.e(TAG, "SeekBarCompat isEnabled? $mIsEnabled")
                 setupProgressColor()
                 setOnTouchListener(this)
                 gradientDrawable.shape = GradientDrawable.OVAL
                 gradientDrawable.setSize(50, 50)
-                gradientDrawable.setColor(if (mIsEnabled) mThumbColor else Color.LTGRAY)
+                gradientDrawable.setColor(if (isEnabled) mThumbColor else Color.LTGRAY)
                 triggerMethodOnceViewIsDisplayed(this, Callable<Void> {
                     val layoutParams = layoutParams
                     mOriginalThumbHeight = mThumb!!.intrinsicHeight
@@ -286,7 +283,7 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
                     gradientDrawable = GradientDrawable()
                     gradientDrawable.shape = GradientDrawable.OVAL
                     gradientDrawable.setSize(mOriginalThumbHeight / 2, mOriginalThumbHeight / 2)
-                    gradientDrawable.setColor(if (mIsEnabled) mThumbColor else Color.LTGRAY)
+                    gradientDrawable.setColor(if (isEnabled) mThumbColor else Color.LTGRAY)
                     gradientDrawable.setDither(true)
                     gradientDrawable.alpha = mThumbAlpha
                     thumb = gradientDrawable
@@ -295,7 +292,7 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
                     gradientDrawable = GradientDrawable()
                     gradientDrawable.shape = GradientDrawable.OVAL
                     gradientDrawable.setSize(mOriginalThumbHeight / 3, mOriginalThumbHeight / 3)
-                    gradientDrawable.setColor(if (mIsEnabled) mThumbColor else Color.LTGRAY)
+                    gradientDrawable.setColor(if (isEnabled) mThumbColor else Color.LTGRAY)
                     gradientDrawable.setDither(true)
                     gradientDrawable.alpha = mThumbAlpha
                     thumb = gradientDrawable
@@ -334,13 +331,12 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
      * @param enabled
      */
     override fun setEnabled(enabled: Boolean) {
-        mIsEnabled = enabled
         triggerMethodOnceViewIsDisplayed(this, Callable<Void> {
             if (!lollipopAndAbove()) {
                 gradientDrawable = GradientDrawable()
                 gradientDrawable.shape = GradientDrawable.OVAL
                 gradientDrawable.setSize(mOriginalThumbHeight / 3, mOriginalThumbHeight / 3)
-                gradientDrawable.setColor(if (mIsEnabled) mThumbColor else Color.LTGRAY)
+                gradientDrawable.setColor(if (enabled) mThumbColor else Color.LTGRAY)
                 gradientDrawable.setDither(true)
                 gradientDrawable.alpha = mThumbAlpha
                 thumb = gradientDrawable
@@ -348,7 +344,7 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
                 val ld = progressDrawable as LayerDrawable
                 val shape = ld.findDrawableByLayerId(
                         android.R.id.progress) as ScaleDrawable
-                shape.setColorFilter(if (mIsEnabled) mProgressColor else Color.LTGRAY,
+                shape.setColorFilter(if (enabled) mProgressColor else Color.LTGRAY,
                         PorterDuff.Mode.SRC_IN)
                 //set the background to transparent
                 val ninePatchDrawable = ld.findDrawableByLayerId(
@@ -357,7 +353,7 @@ class SeekBarCompat : AppCompatSeekBar, View.OnTouchListener {
                 //background
                 //load up the drawable and apply color
                 val seekBarBackgroundDrawable = SeekBarBackgroundDrawable(
-                        context, if (mIsEnabled) mProgressBackgroundColor else Color.LTGRAY,
+                        context, if (enabled) mProgressBackgroundColor else Color.LTGRAY,
                         mActualBackgroundColor, paddingLeft.toFloat(), paddingRight.toFloat())
                 if (belowJellybean())
                     setBackgroundDrawable(seekBarBackgroundDrawable)
