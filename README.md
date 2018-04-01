@@ -1,6 +1,6 @@
 # SeekBarCompat
 
-[![Release](https://img.shields.io/badge/jCenter-0.2.5-brightgreen.svg)](https://bintray.com/sbrukhanda/maven/FragmentViewPager)
+[![Release](https://img.shields.io/badge/jCenter-0.3.0-brightgreen.svg)](https://bintray.com/sbrukhanda/maven/FragmentViewPager)
 [![GitHub license](https://img.shields.io/badge/license-Apache%20Version%202.0-blue.svg)](https://github.com/sbrukhanda/fragmentviewpager/blob/master/LICENSE.txt)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SeekBarCompat-green.svg?style=flat)](https://android-arsenal.com/details/1/2084)
 
@@ -33,22 +33,22 @@ The SeekBarCompat picks up the PrimaryColor by default, but you can set custom c
 In Xml you can also specify *progressBackgroundColor* - by default the progressBackgroundColor (progress-line color) is Black.
 
 #### Programmatically
-```java
-SeekBarCompat seekBarCompat = (SeekBarCompat) findViewById(R.id.materialSeekBar);
-seekBarCompat.setThumbColor(Color.RED);
-seekBarCompat.setProgressColor(Color.CYAN);
-seekBarCompat.setProgressBackgroundColor(Color.BLUE); 
-seekBarCompat.setThumbAlpha(128); //you can also set alpha value for the thumb
+```kotlin
+  val seekBarCompat = findViewById<View>(R.id.materialSeekBar) as SeekBarCompat
+  seekBarCompat.setThumbColor(Color.RED)
+  seekBarCompat.setProgressColor(Color.CYAN)
+  seekBarCompat.setProgressBackgroundColor(Color.BLUE)
+  seekBarCompat.setThumbAlpha(128)
 ```
 
 ## Download 
 Repository available on jCenter
 
-```Gradle
-compile 'com.minimize.library:seekbar-compat:0.2.5'
+```groovy
+compile 'com.minimize.library:seekbar-compat:0.3.0'
 ```
 *If the dependency fails to resolve, add this to your project repositories*
-```Gradle
+```groovy
 repositories {
     maven {
         url  "http://dl.bintray.com/ahmedrizwan/maven" 
