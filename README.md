@@ -45,7 +45,7 @@ In Xml you can also specify *progressBackgroundColor* - by default the progressB
 Repository available on jCenter
 
 ```groovy
-compile 'com.minimize.library:seekbar-compat:0.3.0'
+implementation 'com.minimize.library:seekbar-compat:0.3.0'
 ```
 *If the dependency fails to resolve, add this to your project repositories*
 ```groovy
